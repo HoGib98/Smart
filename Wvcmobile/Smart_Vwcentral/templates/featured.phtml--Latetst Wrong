@@ -1,0 +1,186 @@
+<?php 
+
+
+/**
+ * @var \Smart\Vwcentral\Block\Featured $block
+ */
+ 
+$collection=$block->getFeaturedCollection();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+  $imageHelper = $objectManager->create('Magento\Catalog\Helper\Image');
+ $currencyInterface= $objectManager->get('Magento\Framework\Pricing\PriceCurrencyInterface'); 
+                                   
+  ?>
+  <style>
+.loader {
+  display: none;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #fbbd00;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    margin: auto;
+}
+ 
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+  </style>
+
+<section class="product-section clearfix">
+			<div class="container">
+
+				<div class="section-title text-center mb-30">
+					<h2 class="title-text mb-0">Featured Products</h2>
+				</div>
+                <div id="product-featured" class="product-carousel owl-carousel owl-theme">
+                <?php foreach ($collection as $_product) {                
+                    ?>                    
+                    <div class="item">
+                    <div class="loader"></div>
+                    
+						<div class="product-item">
+							<div class="item-image image-container">
+								<a href="<?php echo $_product->getProductUrl() ?>" class="item-link">
+                  <?php $imageUrl = $imageHelper->init($_product, 'product_page_image_large')
+                                               ->keepAspectRatio(TRUE)
+                                               ->keepFrame(FALSE)
+                                               ->resize(285, 285)
+                                               ->getUrl(); ?>
+									<img src="<?php  echo $imageUrl ?>" alt="imahe_not_found">
+								</a>
+							</div>
+							<div class="item-content clearfix">
+								<div class="item-brand mb-30 clearfix">
+									<span class="item-code float-left">SKU: <?php echo $_product->getSku() ?></span>
+									<a href="#!" class="brand-logo float-right">
+										<img src="<?php echo $block->getBaseUrl().'pub/media/assets/images/product_brand/img_1.png'?>" alt="logo_not_found">
+									</a>
+								</div>
+								<h3 class="item-title mb-15">
+									<a href="<?php echo $_product->getProductUrl() ?>" class="title-link">
+										<?php echo $_product->getName(); ?>
+									</a>
+								</h3>
+								<div class="item-price mb-15">
+                  <!-- <del>$80.15</del> <span>$55.00</span> -->
+                  <?php if($_product->getSpecialPrice()==$_product->getFinalPrice())
+									{?>
+									 <del><?php echo $currencyInterface->format($_product->getPrice(), // the price value.
+				false,                // don't include the container span.
+				2                     // default precision is two decimals, but I want 4 for some reason.
+			);  ?></del> 
+									<span><?php echo $currencyInterface->format($_product->getSpecialPrice(), // the price value.
+				false,                // don't include the container span.
+				2                     // default precision is two decimals, but I want 4 for some reason.
+			);  ?> </span>
+									<?php }
+									else
+									{?>
+	                                  <span><?php echo $currencyInterface->format($_product->getPrice(), // the price value.
+				false,                // don't include the container span.
+				2                     // default precision is two decimals, but I want 4 for some reason.
+			);  ?></span>
+									<?php }?>
+								</div>
+
+								<div class="btns-group ul-li-block clearfix">
+									<ul class="clearfix">
+                  <?php if($block->getCompatible($_product->getId())){
+                                          ?> 
+                    <li><a href="#!" class="bg-default-black">Compatible</a></li>
+                  <?php }?>
+                  <?php 
+                 
+                  if ($_product->isSaleable()) { ?>
+                     
+                    <form  class="addcarslider" action="<?php echo $block->getAddUrl($_product)?>" method="post" >
+                    <input type="hidden" name="product" value="1" tabindex="0">
+                    <input name="form_key" type="hidden" value="[form_key]" tabindex="0">
+                    <input name="is_ajax" type="hidden" value="1">
+                    <button class="action tocart primary slider_addcart" type="submit" title="Add to Cart" tabindex="0">
+                    <span>Add to Cart</span>
+                    </button>
+                    </form>
+                    <!-- <li><a href="#!" class="bg-default-yellow">Add To Cart</a> -->
+                    <!-- <button id="product-item-<?php echo $_product->getId() ?>" class="product-itemadd">Add To Cart</button>
+                    </li>  -->
+                  <?php } ?>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+                  <?php }?> 
+                  <input type="hidden" id="add-cart-url" value="<?php echo $block->getUrl('wwcentral/index/AddToCart'); ?>">
+                </div>
+            </div>
+</section>
+
+<script>
+require([
+    'jquery', 'owlcrousel' , 'bootstrap','magnificpop','niceselect','popper'  // the alias for "mage/accordion"
+], function ($) {
+    $(function () { // to ensure that code evaluates on page load
+    
+   
+          // product carousel - start
+  // --------------------------------------------------
+  $('#product-featured').owlCarousel({
+    loop:true,
+    margin:30,
+    autoplay:true,
+    smartSpeed:1000,
+    autoplayTimeout:6000,
+    autoplayHoverPause:true,
+    responsive:{
+      0:{
+        items:2,
+        nav:true,
+        margin:15,
+        dots:false,
+      },
+      600:{
+        items:3,
+        nav:true,
+        dots:false,
+      },
+      1000:{
+        items:3,
+        nav:false,
+        dots:false,
+      },
+      1100:{
+        items:4,
+        nav:false,
+        dots:false,
+      },
+      1920:{
+        items:4,
+        nav:false,
+        dots:false,
+      }
+    }
+  });
+  // product carousel - end
+  // 
+    });
+});
+</script>

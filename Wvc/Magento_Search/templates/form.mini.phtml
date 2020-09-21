@@ -1,0 +1,124 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+?>
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+$helper = $this->helper(\Magento\Search\Helper\Data::class);
+?>
+<div class="col-sm-9 col-md-9 col-lg-9 col-8">
+<div class="main-searchbox clearfix">
+
+
+<div class="search-type bg-default-yellow">
+									<button type="button" id="type-dropdown-btn" class="type-dropdown-btn">
+										<span class="car-icon">
+											<img src="<?php echo $block->getBaseurl()."/pub/media/assets/images/icons/icon_1.png"?>" alt="icon_not_found">
+										</span>
+										Fiend Parts By Vehicle
+										<span class="down-icon float-right">
+											<i class="fal fa-chevron-down"></i>
+										</span>
+                                    </button>
+                                    <div id="cat_seach" class="type-content-body white" >
+										<form action="#" class="garage">
+											<div class="select-options-list ul-li-block clearfix">
+												<ul class="clearfix">
+													<li>
+														<div class="select-option">
+															<select class="sel_make" name="make">
+															<option data-display="Select Make">Nothing</option>
+															 
+															</select>
+														</div>
+													</li>
+													<li>
+														<div class="select-option">
+															<select class="sel_model" name="model">
+															<option data-display="Select Model">Nothing</option>
+															</select>
+														</div>
+													</li>
+													<li>
+														<div class="select-option">
+															<select  class="sel_gen" name="gen">
+															     <option data-display="Select Generation">Nothing</option>
+															</select>
+														</div>
+													</li>
+													<li>
+														<div class="select-option">
+															<select  class="sel_sub" name="sub_mod">
+															     <option data-display="Select Sub Model">Nothing</option>
+															</select>
+														</div>
+													</li>
+													<li>													
+														<div class="textType">	<input type ="text" value="" placeholder="Type Your Text Here..." disabled>	</div>														
+													</li>
+												</ul>
+											</div>
+										</form>
+										<div class="btns-group clearfix">
+												<button  type="submit" class="addtogarage custom-btn yellowBtn">Add To Garage</button>
+										</div>
+										<div class="filters_garage">
+										  
+										</div>
+									</div>
+								 
+								 
+</div>
+<div class="block block-search search-box">
+    <div class="block block-title"><strong><?= $block->escapeHtml(__('Search')) ?></strong></div>
+    <div class="block block-content">
+        <form class="form minisearch" id="search_mini_form" action="<?= $block->escapeUrl($helper->getResultUrl()) ?>" method="get">
+            <div class="field search">
+                <label class="label" for="search" data-role="minisearch-label">
+                    <span><?= $block->escapeHtml(__('Search')) ?></span>
+                </label>
+                <div class="control">
+                    <input id="search"
+                           data-mage-init='{"quickSearch":{
+                                "formSelector":"#search_mini_form",
+                                "url":"<?= $block->escapeUrl($helper->getSuggestUrl())?>",
+                                "destinationSelector":"#search_autocomplete",
+                                "minSearchLength":"<?= $block->escapeHtml($helper->getMinQueryLength()) ?>"}
+                           }'
+                           type="text"
+                           name="<?= $block->escapeHtmlAttr($helper->getQueryParamName()) ?>"
+                           value="<?= $block->escapeHtmlAttr($helper->getEscapedQueryText()) ?>"
+                           placeholder="<?= $block->escapeHtmlAttr(__('Search  Here...')) ?>"
+                           class="input-text"
+                           maxlength="<?= $block->escapeHtmlAttr($helper->getMaxQueryLength()) ?>"
+                           role="combobox"
+                           aria-haspopup="false"
+                           aria-autocomplete="both"
+                           autocomplete="off"
+                           aria-expanded="false"/>
+                    <div id="search_autocomplete" class="search-autocomplete"></div>
+                    <?= $block->getChildHtml() ?>
+                </div>
+            </div>
+            <div class="actions" id="action_headersearch">
+                <button type="submit"
+                    title="<?= $block->escapeHtmlAttr(__('Search')) ?>"
+                    class="action search search-btn"
+                    aria-label="Search"
+                >  <i class="fal fa-search"></i>
+                    <span><?= $block->escapeHtml(__('Search')) ?></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+                        </div>
+                        </div>
+                        </div>

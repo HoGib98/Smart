@@ -1,0 +1,57 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Magento\Catalog\Block\Category\View
+ */
+?>
+
+
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');//get current category
+$subcats = $category->getChildrenCategories();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+if(count($subcats)>0){
+?>
+<div class="continder">			
+				<div class="row">
+    <?php
+    foreach ($subcats as $subcat) {
+            $_category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcat->getId());
+            $_outputhelper = $this->helper('Magento\Catalog\Helper\Output');
+            $subcaturl = $subcat->getUrl();            
+            $_imgHtml = '';
+           ?>
+
+                <div class="col-lg-4">
+				<div class="catpro">
+                    <a href="<?php echo $_category->getUrl(); ?>">
+                <img src="<?php echo $block->getBaseurl()."pub/media/assets/images/products/air-intake.jpg";?>" alt="img">
+                </a>
+				<h5><a href="<?php echo $_category->getUrl(); ?>"><?php echo $_category->getName()?></a></h5>
+				</div>
+				</div>
+ 
+<?php   } ?>
+    </div>
+    </div>
+ 
+<?php 
+}
+else
+{
+if (!$block->isContentMode() || $block->isMixedMode()) :?>
+ 
+    <?= $block->getProductListHtml() ?>
+<?php endif; 
+
+}
+?>

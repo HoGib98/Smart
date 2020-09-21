@@ -1,0 +1,93 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+  <referenceBlock name="head">
+    <block class="Magento\Theme\Block\Html\Head\Script" name="requirejs" before="-">
+        <arguments>
+            <!-- RequireJs library enabled -->
+            <argument name="file" xsi:type="string">requirejs/require.js</argument>
+            
+        </arguments>
+    </block>
+   
+  </referenceBlock> 
+
+<referenceContainer name="header-wrapper">
+    <block class="Magento\Framework\View\Element\Template" name="linkboxes"  template="Magento_Theme::html/customcart.phtml" after="logo"/>
+</referenceContainer>
+
+   <referenceContainer name="page.wrapper">   
+    <container name="partfinder" as="partfinder" label="partfinder" htmlTag="div" htmlClass="partfinder" htmlId="partfinder" before="main.content">
+        <block class="Magento\Framework\View\Element\Template" name="custom.file" template="Smart_Vwcentral::partfindermob.phtml" /><!-- This is just an example -->
+    </container>
+
+      <container name="search_barmob" as="search_barmob" label="search_barmob" htmlTag="div" htmlClass="searchmob" htmlId="search_barmob"  before="main.content">
+       
+     </container>
+ 
+   
+   
+</referenceContainer>
+ <move element="minicart" destination="partfinder" after="-"/>
+ <move element="breadcrumbs" destination="search_barmob" after="-"/>
+ <move element="top.search" destination="search_barmob" before="-"/> 
+    
+   <!-- <move element="navigation.sections" destination="header-wrapper" after="-"/> -->
+  
+    <body>
+
+
+     <referenceBlock name="catalog.topnav">
+
+           <block class="Magento\Framework\View\Element\Html\Link" name="care-care">
+            <arguments>
+            <argument name="label" xsi:type="string" translate="false">CARE CARE</argument>
+            <argument name="path" xsi:type="string" translate="false">care</argument>
+             <!-- <argument name="template" xsi:type="string">Magento_Theme::menu/care.phtml</argument> -->
+            </arguments>
+            </block>
+
+
+ 
+        <block class="Magento\Framework\View\Element\Html\Link" name="contact-link">
+            <arguments>
+            <argument name="label" xsi:type="string" translate="false">CONTACT US</argument>
+            <argument name="path" xsi:type="string" translate="false">contact</argument>
+             <!-- <argument name="template" xsi:type="string">Magento_Theme::menu/contacts.phtml</argument> -->
+            </arguments>
+        </block>
+    </referenceBlock>
+  <referenceContainer name="header.container">
+
+  <!-- <referenceBlock name="top.search" remove="true"/> -->
+ <!-- <referenceBlock name="header.panel.wrapper" remove="true" /> -->
+ </referenceContainer>
+
+
+
+ <!--footer section-->
+ 
+         <referenceContainer name="footer-container" htmlClass="footer-section clearfix" htmlId="footer-section">
+            
+            <container name="footer-row-1" htmlTag="div" htmlClass="container">
+            
+
+                <container name="footer-links-container" htmlTag="div" htmlClass="custom-row ul-li clearfix">
+                      <block name="footer-hr" class="Magento\Framework\View\Element\Template"
+                       template="Magento_Theme::html/footer.phtml"/>
+
+                
+                </container>
+            </container>
+             <container name="footer-legal-container" htmlTag="div" htmlClass="footer-bottom text-center">
+
+            </container>
+ 
+            
+        </referenceContainer>
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="report.bugs" remove="true"/>
+          <move element="store_switcher" destination="footer-tools-container" />
+        <move element="copyright" destination="footer-legal-container" />
+        <referenceBlock name="form.subscribe" remove="true"/>
+  <!--footer section-->
+    </body>
+</page>

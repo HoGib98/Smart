@@ -1,0 +1,37 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$currentStoreId = $storeManager->getStore()->getId();
+    ?>
+
+<div class="container" id="product_below">
+				<div class="section-title text-center probelow_head">
+					<h2 class="title-text mb-0">Product Details</h2>
+				</div>
+				
+				
+				<div class="discription">
+                <h3>Description</h3>
+                <?php echo $product->getShortDescription();?>
+                <?php echo $product->getDescription();?>
+			</div>		
+<div class="videosImg">
+<h3>Videos</h3>
+<?php echo $product->getVideo();?>
+</div>
+</div>
+
+<div class="section-title text-center probelow_head" >
+	<h2 class="title-text mb-0">Customer Reviews</h2>
+</div>
+<section class="customerReview">
+<div class="container">
+<div class="row">
+<div class="col-lg-6"><h4>Powered by</h4></div>
+<div class="col-lg-6"><a href="#" class="review" id="pro_review">WRITE A REVIEW</a></div>
+</div>
+<hr> 
+</div>
+
+</section>
+ 

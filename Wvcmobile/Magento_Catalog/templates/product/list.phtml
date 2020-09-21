@@ -1,0 +1,224 @@
+<?php
+
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Framework\App\Action\Action;
+
+?>
+<?php
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+
+
+
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+
+echo $block->gettestComp();
+$_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+?>
+<?php if (!$_productCollection->count()) : ?>
+    <div class="message info empty">
+        <div><?= $block->escapeHtml(__('We can\'t find products matching the selection.')) ?></div>
+    </div>
+<?php else : ?>
+
+    <div id="toolbar_top">
+        <?= $block->getToolbarHtml() ?>
+
+    </div>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $imageDisplayArea = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $imageDisplayArea = 'category_page_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="products wrapper <?= /* @noEscape */ $viewMode ?> products-<?= /* @noEscape */ $viewMode ?>">
+        <ol class="products list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product) : ?>
+                <li class="item product product-item  row">
+                    <div class="product-item-info" data-container="product-<?= /* @noEscape */ $viewMode ?>">
+                        <?php
+                        $productImage = $block->getImage($_product, $imageDisplayArea);
+                        if ($pos != null) {
+                            $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                                . 'top:' . $productImage->getHeight() . 'px;"';
+                        }
+                        ?>
+                        <?php // Product Image 
+                        ?>
+                        <?php
+                        if ($viewMode == 'grid') { ?>
+                            <a href="<?= $block->escapeUrl($_product->getProductUrl()) ?>" class="product photo product-item-photo" tabindex="-1">
+                                <?= $productImage->toHtml() ?>
+                            </a>
+                        <?php } else { ?>
+
+                            <div class="product_image" id="grid_section">
+                                <a href="<?= $block->escapeUrl($_product->getProductUrl()) ?>" class="product photo product-item-photo" tabindex="-1">
+                                    <?= $productImage->toHtml() ?>
+                                </a>
+                                <h3 class="product name product-item-name">
+                                    <a class="product-item-link" href="<?= $block->escapeUrl($_product->getProductUrl()) ?>">
+                                        <?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+                                    </a>
+                                </h3>
+                            </div>
+
+                        <?php } ?>
+                        <div class="product details product-item-details">
+                            <?php
+                            $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                            ?>
+
+                            <?php
+                            if ($viewMode == 'grid') { ?>
+                                <h3 class="product name product-item-name">
+                                    <a class="product-item-link" href="<?= $block->escapeUrl($_product->getProductUrl()) ?>">
+                                        <?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+                                    </a>
+                                </h3>
+                            <?php } ?>
+
+                            <?php
+                            if ($viewMode == 'grid') { ?>
+                                <ul class="imgNum">
+                                    <li>SKU: <?php echo $_product->getSku(); ?></li>
+                                    <li>
+                                        
+                                    
+                                    <?php
+                                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                    $_helperm = $objectManager->get('Smart\Vwcentral\Helper\Data');
+                                    //$id_brand = $_product->getData('manufacturer');
+                                    $categoryIds = $_product->getCategoryIds();
+                                    $product = $objectManager->get('Magento\Catalog\Model\Product')->load($_product->getId());
+                                    $cat_name = $product->getAttributeText('manufacturer');
+                                    $cat_url = $_helperm->getbrand($cat_name, $categoryIds);
+
+                                    if ($cat_url != 'empty') {
+                                    ?>
+                                    <img src="<?php echo $cat_url; ?>" alt="<?php echo $cat_name ?>">
+                                         
+                                    <?php } ?>
+                                    <!-- <img src="<?php //echo $block->getBaseUrl() . 'pub/media/assets/images/product_brand/img_1.png' ?>" alt="logo_not_found"> -->
+                                
+                                
+                                </li>
+
+                                </ul>
+                            <?php
+                            }  ?>
+                            <!-- <?= $block->getReviewsSummaryHtml($_product, $templateType) ?> -->
+                            <?= /* @noEscape */ $block->getProductPrice($_product) ?>
+
+                            <?php
+                            if ($viewMode == 'grid') { ?>
+
+                            <?php } ?>
+                            <?php if ($_product->isAvailable()) : ?>
+                                <?= $block->getProductDetailsHtml($_product) ?>
+                            <?php endif; ?>
+
+                            <div class="product-item-inner">
+
+
+                                <ul class="addComp">
+
+                                    <?php
+
+                                    if ($block->getCompatible($_product->getId())) { ?>
+                                           <li><button class="black">Compatible</button></li>
+                                        
+                                    <?php } ?>
+                                 
+                                    <li>
+                                        <div class="product actions product-item-actions" <?= strpos($pos, $viewMode . '-actions') ? $block->escapeHtmlAttr($position) : '' ?>>
+                                            <div class="actions-primary" <?= strpos($pos, $viewMode . '-primary') ? $block->escapeHtmlAttr($position) : '' ?>>
+                                                <?php if ($_product->isSaleable()) : ?>
+                                                    <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                                    <form data-role="tocart-form" data-product-sku="<?= $block->escapeHtmlAttr($_product->getSku()) ?>" action="<?= $block->escapeUrl($postParams['action']) ?>" method="post">
+                                                        <input type="hidden" name="product" value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+                                                        <input type="hidden" name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>" value="<?= /* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED] ?>">
+                                                        <?= $block->getBlockHtml('formkey') ?>
+                                                        <input name="is_ajax" type="hidden" value="2">
+                                                        <button type="submit" title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>" class="action tocart primary yellow">
+                                                            <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                                        </button>
+                                                    </form>
+                                                <?php else : ?>
+                                                    <?php if ($_product->isAvailable()) : ?>
+                                                        <div class="stock available"><span><?= $block->escapeHtml(__('In stock')) ?></span></div>
+                                                    <?php else : ?>
+                                                        <div class="stock unavailable"><span><?= $block->escapeHtml(__('Out of stock')) ?></span></div>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div data-role="add-to-links" class="actions-secondary" <?= strpos($pos, $viewMode . '-secondary') ? $block->escapeHtmlAttr($position) : '' ?>>
+                                                <?php if ($addToBlock = $block->getChildBlock('addto')) : ?>
+                                                    <?= $addToBlock->setProduct($_product)->getChildHtml() ?>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                                <?php
+                                if ($viewMode == 'list') { ?>
+                                    <ul class="imgNum">
+                                        <li>SKU: <?php echo $_product->getSku();  ?></li>
+                                        <li><img src="<?php echo $block->getBaseUrl() . 'pub/media/assets/images/product_brand/img_1.png' ?>" alt="logo_not_found"></li>
+
+                                    </ul>
+                                <?php
+                                }  ?>
+ 
+                            </div>
+                        </div>
+                        <?php
+
+
+
+                        ?>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <div id="toolbar_bottom">
+        <?= $block->getToolbarHtml() ?>
+    </div>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+            {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {
+                    "product_sku": "<?= $block->escapeJs($_product->getSku()) ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

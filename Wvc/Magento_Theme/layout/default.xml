@@ -1,0 +1,101 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+  <referenceBlock name="head">
+    <block class="Magento\Theme\Block\Html\Head\Script" name="requirejs" before="-">
+        <arguments>
+            <!-- RequireJs library enabled -->
+            <argument name="file" xsi:type="string">requirejs/require.js</argument>
+            
+        </arguments>
+    </block>
+   
+  </referenceBlock>  
+<referenceContainer name="header-wrapper">
+    <block class="Magento\Framework\View\Element\Template" name="linkboxes"  template="Magento_Theme::html/minicartcustom.phtml" after="logo"/>
+</referenceContainer>
+ <referenceContainer name="page.wrapper">
+  <!-- <block class="Magento\Framework\View\Element\Template" name="bbb"  template="Magento_Theme::html/brandsmenu.phtml" before="carsidebar"/> -->
+    <container name="carsidebar" as="sidebar" label="sidebar" htmlTag="div" htmlClass="sidebar" htmlId="cart_sidebar" before="main.content">
+        <!-- This is just an example -->
+    </container>
+</referenceContainer>
+ <move element="minicart" destination="carsidebar" before="-"/>
+    <referenceBlock name="catalog.topnav">
+
+           <block class="Magento\Framework\View\Element\Html\Link" name="care-care">
+            <arguments>
+            <argument name="label" xsi:type="string" translate="false">CARE CARE</argument>
+            <argument name="path" xsi:type="string" translate="false">car-care</argument>              
+            </arguments>
+            </block>
+
+
+ 
+        <block class="Magento\Framework\View\Element\Html\Link" name="contact-link">
+            <arguments>
+            <argument name="label" xsi:type="string" translate="false">CONTACT US</argument>
+            <argument name="path" xsi:type="string" translate="false">contact</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+   <referenceBlock name="advanced-search-link" remove="true"/>
+   <!-- <move element="navigation.sections" destination="header-wrapper" after="-"/> -->
+   <move element="navigation.sections" destination="header-wrapper" />
+   <move element="catalog.topnav" destination="header-wrapper" after="-"/>
+    <body>
+<move element="breadcrumbs" destination="main.content" before="-"/>
+    <!-- header container changes -->
+      
+ 
+ 
+         <!-- Reference anme Setter -->
+        <referenceBlock name="logo">
+            <arguments>
+                <!-- Set numbers as needed -->
+                <argument name="logo_img_width" xsi:type="number">80</argument>
+                <argument name="logo_img_height" xsi:type="number">45</argument>
+            </arguments>
+        </referenceBlock>
+
+    
+       
+         
+
+
+         <!-- Footer Containser all chnages below -->
+         <referenceContainer name="footer-container" htmlClass="container footer-section sec-ptb-60 pb-0 bg-default-black clearfix" htmlId="footer-section">
+            
+            <container name="footer-row-1" htmlTag="div" htmlClass="container">
+            
+
+                <container name="footer-links-container" htmlTag="div" htmlClass="custom-row ul-li clearfix">
+                      <block name="footer-hr" class="Magento\Framework\View\Element\Template"
+                       template="Magento_Theme::html/footer.phtml"/>
+
+                
+                </container>
+
+                <container name="footer-tools-container" htmlTag="div" htmlClass="col-xs-12 col-md-4">
+
+                </container>
+
+
+            </container>
+            <container name="footer_row2" htmlTag="div" htmlClass="container">
+
+            <container name="footer-legal-container" htmlTag="div" htmlClass="footer-bottom text-center">
+
+            </container>
+                
+            </container>
+            
+        </referenceContainer>
+        <move element="cms_footer_links_container" destination="footer-links-container" />
+        <move element="footer_links" destination="footer-links-container" />
+        <move element="form.subscribe" destination="footer-links-container" />
+        <move element="store_switcher" destination="footer-tools-container" />
+        <move element="copyright" destination="footer-legal-container" />
+        <!-- <move element="report.bugs" destination="footer-legal-container" /> -->
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="report.bugs" remove="true"/>
+    </body>
+</page>

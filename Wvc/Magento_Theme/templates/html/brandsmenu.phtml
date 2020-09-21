@@ -1,0 +1,39 @@
+<div class="container-fluid" id="brand_menu_main">     
+    <?php
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+    $catId =11;        
+    $subcategory = $objectManager->create('Magento\Catalog\Model\Category')->load($catId);           
+    $subcats = $subcategory->getChildrenCategories();
+    $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+    $url=$storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    ?>
+     <ul class="row" id="brands_menu">
+        
+        <?php
+        foreach ($subcats as $subcat) {
+
+       
+            if ($subcat->getIsActive()) {
+                $subcatint = $objectManager->create('Magento\Catalog\Model\Category')->load($subcat->getId()); 
+                $subcat_url = $subcat->getUrl();
+                $subcat_img = "";
+                $placeholder_img = "/media/placeholder.png";
+                ?>
+                <li class="col-3 col-lg-3 col-md-3 col-xl-3">
+               
+                    <a href="<?php echo $subcat_url; ?>">
+                     <img src="<?php echo $url.$subcatint->getThumbnail(); ?>"/>
+                   
+                        <?php echo $subcat->getName(); ?>
+                    </a>
+                </li>
+
+                <?php
+            }
+        }
+        ?>
+    </ul>
+     
+</div>

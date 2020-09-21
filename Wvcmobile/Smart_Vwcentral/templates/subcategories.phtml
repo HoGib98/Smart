@@ -1,0 +1,48 @@
+<?php 
+
+
+// /**
+//  * @var \Smart\Vwcentral\Block\Subcategory $block
+//  */
+ 
+// $collection=$block->getFeaturedCollection();
+
+  
+ 
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+    $catId =$category->getId();        
+    $subcategory = $objectManager->create('Magento\Catalog\Model\Category')->load($catId);           
+    $subcats = $subcategory->getChildrenCategories();
+    $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+    $url=$storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    ?>
+    <div class="container">
+    <ul class="row" id="brands_cat">
+        
+        <?php
+        foreach ($subcats as $subcat) {
+
+       
+            if ($subcat->getIsActive()) {
+                $subcatint = $objectManager->create('Magento\Catalog\Model\Category')->load($subcat->getId()); 
+                $subcat_url = $subcat->getUrl();
+                $subcat_img = "";
+                $placeholder_img = "/media/placeholder.png";
+                ?>
+                <li class="col-4 col-lg-4 col-md-4 col-xl-4">
+               
+                    <a href="<?php echo $subcat_url; ?>">
+                     <img src="<?php echo $url.'catalog/category/'.$subcatint->getThumbnail(); ?>"/>
+                   
+                        <?php echo $subcat->getName(); ?>
+                    </a>
+                </li>
+
+                <?php
+            }
+        }
+        ?>
+    </ul>
+    </div>

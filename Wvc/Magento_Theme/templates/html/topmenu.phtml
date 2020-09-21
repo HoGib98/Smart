@@ -1,0 +1,115 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Top menu for store
+ *
+ * @var $block \Smart\Vwcentral\Block\Html\Topmenu
+ */
+ 
+
+$columnsLimit = $block->getColumnsLimit() ?: 0;
+$_menuHtml = $block->getHtml('level-top', 'submenu', $columnsLimit);
+
+
+/* some Custom values needed here */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeInformation = $objectManager->create('Magento\Store\Model\Information');
+$store = $objectManager->create('Magento\Store\Model\Store');
+$storeInfo = $storeInformation->getStoreInformationObject($store);
+$phone = $storeInfo->getPhone();
+ 
+?>
+<div class="header-bottom bg-default-black">
+<div class="container-fluid">
+    <div class="row">
+ 
+      <div class="col-md-3 col-sm-3 col-lg-3 col-3">
+    
+
+
+      
+               <div class="allcategory-area">							
+							<button type="button" class="allcategory-btn" >
+                <i class="fal fa-bars"></i>Shop By Make <i class="fa fa-caret-down"></i>
+                </button>
+								<div id="myDropdown" class="dropdown-content">
+							  <nav class="navigation" data-action="navigation">	
+              <ul id="all_cat" data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}' class="clearfix">
+        <?= /* @noEscape */ $_menuHtml?>
+        
+              </nav>
+								</div>
+						
+              </div> 
+   
+       </div>      
+      <div class="col-sm-7 col-md-7 col-lg-7 col-7">
+       
+        <div class="main-menubar ul-li clearfix">
+        <nav class="navigation" data-action="navigation">
+         <ul id="other_cat_header" data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}' class="clearfix">
+        <?= /* @noEscape */ $_menuHtml?>
+        <?= $block->getChildHtml() ?>   
+        </nav>
+        
+         </div>
+
+        
+        
+
+      </div>
+      <div class="col-sm-2 col-md-2 col-lg-2 col-2">
+							<div class="contact-info">
+								<a href="tel:<?php echo $phone ; ?>"><i class="fa fa-phone" aria-hidden="true"></i> <?php echo $phone ; ?></a>
+							</div>
+				 </div>
+    </div>
+
+</div>
+
+<div class="container-fluid hiddenbrand" id="brand_menu_main">     
+    <?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+    $catId =11;        
+    $subcategory = $objectManager->create('Magento\Catalog\Model\Category')->load($catId);           
+    $subcats = $subcategory->getChildrenCategories();
+    $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+    $url=$storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    ?>
+    <div class="brandmain_menu">
+     <ul class="row" id="brands_menu">
+        
+        <?php
+        foreach ($subcats as $subcat) {
+
+       
+            if ($subcat->getIsActive()) {
+                $subcatint = $objectManager->create('Magento\Catalog\Model\Category')->load($subcat->getId()); 
+                $subcat_url = $subcat->getUrl();
+                $subcat_img = "";
+                $placeholder_img = "/media/placeholder.png";
+                ?>
+                <li class="col-3 col-lg-3 col-md-3 col-xl-3">
+               
+                    <a href="<?php echo $subcat_url; ?>">
+                     <img src="<?php echo $url.'catalog/category/'.$subcatint->getThumbnail(); ?>"/>
+                   
+                        <?php echo $subcat->getName(); ?>
+                    </a>
+                </li>
+
+                <?php
+            }
+        }
+        ?>
+    </ul>
+    </div>
+     
+</div>
+
+</div>

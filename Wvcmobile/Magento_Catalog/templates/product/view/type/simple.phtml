@@ -1,0 +1,38 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php 
+ 
+/* @var $block \Magento\Catalog\Block\Product\View\AbstractView */?>
+<?php $_product = $block->getProduct() ?>
+<?php
+/* @var $block \Magento\Catalog\Block\Product\View\View\Type\Simple*/
+ if($block->getSelected())
+  {
+  
+  if($block->getCompatible($_product ->getId()))
+  {
+  ?>
+
+<div class="compatibale"><h2><i class="fa fa-check" aria-hidden="true"></i>  This product is compatible</h2></div>
+
+<?php
+}
+else
+{?>
+<div class="compatibale no_comp"><h2><i class="fa fa-times" aria-hidden="true"></i>  This product is Not compatible</h2></div>
+  <?php
+}
+}
+else
+{ ?>
+<div class="compatibale noselection">
+			<h2><img src="<?php echo $block->getBaseUrl().'pub/media/assets/images/gear.png'?>" alt="gear"> Make sure it fits: <span>Add a vehicle to check &gt;&gt;</span></h2></div>
+
+<?php }?>
+ 
+
+<div class="avail"><button>Availability: <img src="<?php echo $block->getBaseUrl().'pub/media/assets/images/icons/shipping.png'?>" alt="shipping"> Direct ship <i class="fa fa-question-circle" aria-hidden="true"></i></button></div>

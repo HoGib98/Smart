@@ -1,0 +1,80 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /*
+<div class="footer-container">
+    
+
+
+
+<div class="footer">
+       xfsddsfsdfdsfsd
+        <p class="bugs"><?= $block->escapeHtml(__('Help Us Keep Magento Healthy czcxzc')) ?> - <a
+            href="http://www.magentocommerce.com/bug-tracking"
+            target="_blank"><strong><?= $block->escapeHtml(__('Report All Bugs')) ?></strong></a>
+        </p>
+        <address><?= $block->escapeHtml($block->getCopyright()) ?></address>
+    </div>
+</div>
+*/?>
+<div class="custom-row ul-li clearfix">
+					<ul class="footernav clearfix">
+						<li class="custom-col">
+							<div class="useful-links ul-li-block clearfix">
+								<h3 class="footer-title-text">About Us</h3>
+								<?php
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('footer_1')
+        ->toHtml();?>   
+							</div>
+						</li>
+
+						<li class="custom-col">
+							<div class="useful-links ul-li-block clearfix">
+								<h3 class="footer-title-text mb-30">Help & Contact</h3>
+								<?php
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('footer_2')
+        ->toHtml();?>   
+							</div>
+						</li>
+
+                        <li class="custom-col">
+							<div class="useful-links ul-li-block clearfix">
+								<h3 class="footer-title-text mb-30">Account</h3>
+								<?php
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('footer_3')
+        ->toHtml();?>   
+							</div>
+						</li>
+
+						<li class="custom-col">
+							<div class="useful-links ul-li-block clearfix">
+								<h3 class="footer-title-text mb-30">Shop</h3>
+								<?php
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('footer_4')
+        ->toHtml();?>   
+							</div>
+						</li>
+
+						<li class="custom-col">				 
+ 
+<?php
+echo $this->getLayout()
+->createBlock('Magento\Cms\Block\Block')
+->setBlockId('footnewsmo')
+->toHtml();?>
+						</li>
+
+					</ul>
+</div>
+

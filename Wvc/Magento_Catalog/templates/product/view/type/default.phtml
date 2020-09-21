@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /* @var $block \Magento\Catalog\Block\Product\View\AbstractView */ ?>
+<?php $_product = $block->getProduct() ?>
+<div class="review">
+	<h2><?php echo $_product->getName();  ?></h2>
+	<h3>SKU: <?php echo $_product->getSku();  ?></h3>
+	<ul class="rev">
+		<li><img src="<?php echo $block->getBaseurl() ?>pub/media/assets/images/icons/5star.png" alt="5 Star">5 Reviews</li>
+		<li class="max">
+
+			<?php
+			$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+			$_helper = $objectManager->get('Smart\Vwcentral\Helper\Data');
+			$categoryIds = $_product->getCategoryIds();
+			$product = $objectManager->get('Magento\Catalog\Model\Product')->load($_product->getId());
+			$cat_name = $product->getAttributeText('manufacturer');
+			$cat_url = $_helper->getbrand($cat_name, $categoryIds);
+
+			if ($cat_url != 'empty') {
+			?>
+
+				<a href="#!" class="brand-logo float-right">
+					<img src="<?php echo $cat_url; ?>" alt="logo_not_found">
+
+				</a>
+			<?php } ?>
+
+
+
+
+			<!-- <img src="<?php //echo $block->getBaseurl() 
+							?>pub/media/assets/images/logo/maxton.png" alt="maxton"> -->
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Checkout\Block\Cart\Sidebar */
+?>
+
+
+<div class="col-5">
+    <ul class="notifications">
+        <li>
+
+            <a href="#" class="item-btn" id="account_home"> <img src="<?php echo $block->getBaseUrl() . 'pub/media/assets/images/icons/icon_3.png' ?>" alt="icon_not_found"></a>
+            <div id="my_account_drop" class="my_account">
+                <ul>
+                    <li><a href="<?php echo $block->getBaseUrl() . 'customer/account/' ?>" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc">Dashboard</a></li>
+                    <li><a href="<?php echo $block->getBaseUrl() . 'sales/order/history/' ?>" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc">Orders</a></li>
+                    <!-- <li><a href="<?php //echo $block->getBaseUrl().'customer/account/'
+                                        ?>" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc">Favourites</a></li>
+                                      <li> -->
+                    <li>
+
+                    <?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                            $_helper = $objectManager->get('Smart\Vwcentral\Helper\Data');
+                            if ($_helper->checkloggedin()) { ?>
+                               <a href="<?php echo $block->getBaseUrl() . 'customer/account/logout/' ?>" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc">Log Out</a>
+                            <?php
+                            } else {
+
+
+                            ?>
+                                  <a href="<?php echo $block->getBaseUrl() . 'customer/account' ?>" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc">Log In</a>
+                            <?php
+                            } ?>
+                         
+                    </li>
+                </ul>
+            </div>
+
+
+        </li>
+        <li><a href="#" class="item-btn"> <img src="<?php echo $block->getBaseUrl() . 'pub/media/assets/images/icons/icon-4.png' ?>" alt="icon_not_found"></a>
+            <div class="cart-item-counter garcounter">0</div>
+        </li>
+        <!-- <li><a href="#" class="item-btn"> <img src="images/icon-5.png" alt="icon_not_found"></a> <div class="cart-item-counter">0</div> </li> -->
+        <li>
+
+
+            <div class="minicart-wrapper">
+                <a id="mycart" class="action showcart" href="<?= $block->escapeUrl($block->getShoppingCartUrl()) ?>" data-bind="scope: 'minicart_content'">
+                    <span class="text"><?= $block->escapeHtml(__('My Cart')) ?></span>
+                    <span class="counter qty cart-item-counter empty" data-bind="css: { empty: !!getCartParam('summary_count') == false && !isLoading() }, blockLoader: isLoading">
+                        <span class="counter-number">
+                            <!-- ko text: getCartParam('summary_count') -->
+                            <!-- /ko --></span>
+                        <span class="counter-label">
+                            <!-- ko if: getCartParam('summary_count') -->
+                            <!-- ko text: getCartParam('summary_count') -->
+                            <!-- /ko -->
+                            <!-- ko i18n: 'items' -->
+                            <!-- /ko -->
+                            <!-- /ko -->
+                        </span>
+                    </span>
+                </a>
+
+
+
+            </div>
+
+
+        </li>
+
+        <!--Here custom adds--->
+
+    </ul>
+</div>
